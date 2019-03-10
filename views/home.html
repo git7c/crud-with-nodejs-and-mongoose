@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NodeJS Mongoose CRUD App</title>
+    <style>
+    *{
+    box-sizing: border-box;
+    }
+    body{
+        padding: 50px;
+        margin: 0;
+        background: #f7f7f7;
+        font-family: sans-serif;
+    }
+    .container{
+        background-color: #ffffff;
+        padding: 10px;
+        margin: 0 auto;
+        max-width: 600px;
+        border: 1px solid #cccccc;
+    }
+    .insert_post input[type='text'],
+    .insert_post textarea{
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #dddddd;
+        font-family: sans-serif;
+        margin-bottom: 5px;
+        font-size: 16px;
+        resize: vertical;
+    }
+    .insert_post label{
+        font-weight: bold;
+    }
+    h1,h2{
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .insert_post input[type='text']:focus,
+    .insert_post textarea:focus{
+        outline: none;
+        border: 1px solid #cccccc;
+    }
+    .insert_post input[type='submit']{
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #333333;
+        color: #ffffff;
+        outline: none;
+        border: 1px solid rgba(0,0,0,.1);
+    }
+    .insert_post input[type='submit']:hover{
+        background-color: #ffffff;
+        color: #222222;
+        border: 1px solid #333333;
+    }
+
+    /* SINGLE POST STYLING */
+    .single_post{
+        padding: 10px 0;
+        border-bottom: 1px solid #dddddd;
+
+    }
+
+    .single_post .post_title{
+        margin: 0 0 5px 0;
+        padding: 0;
+    }
+    .single_post .post_content{
+        margin: 5px 0;
+        padding: 0;
+    }
+
+    .single_post .post_info{
+        font-size: 14px;
+    }
+    .single_post .post_date{
+        color: #888888;
+        font-style: italic;
+    }
+    .post_actions{
+        padding-top: 5px;
+    }
+    .post_edit_btn,
+    .post_delete_btn{
+        border:1px solid rgba(0,0,0,.1);
+        outline: none;
+        text-decoration: none;
+        padding: 7px 15px;
+        display:inline-block;
+    }
+    .post_edit_btn{
+        background-color: #2c9f45;
+        color: #ffffff;
+    }
+    .post_delete_btn{
+        background-color: #ff4c4c;
+        color: #ffffff;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Insert Post</h1>
+        <div class="insert_post">
+            <form action="" method="POST">
+                <label for="post_title">Post Title</label>
+                <input type="text" name="title" placeholder="Enter post title" id="post_title" required>
+                <label for="post_content">Write your post</label>
+                <textarea name="content" id="post_content" placeholder="Write something..." required></textarea>
+                <label for="author_name">Author Name</label>
+                <input type="text" name="author" placeholder="Enter author name" id="author_name" required>
+                <input type="submit" value="POST">
+            </form>
+        </div>
+        <hr>
+        <h2>Latest Updates</h2>
+        <div class="all_posts">
+            <!-- 
+                LEARN MORE ABOUT TWIG TEMPLATE ENGINE -
+                https://twig.symfony.com
+             -->
+            {% if allpost is empty %}
+            <h4>Not post found!</h4>
+            {% else %}
+                {% for post in allpost %}
+                    <div class="single_post">
+                        <h3 class="post_title">{{post.title | e}}</h3>
+                        <div class="post_info"><span class="post_date">{{post.createdAt | date("d M, Y")}}</span> | <span class="post_author">By, <strong>{{post.author_name|e}}</strong></span></div>
+                        <p class="post_content">{{post.content | e}}</p>
+                        <div class="post_actions">
+                            <a href="/edit/{{post._id}}" class="post_edit_btn">Edit</a> | 
+                            <a href="/delete/{{post._id}}" class="post_delete_btn">Delete</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
